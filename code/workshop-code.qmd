@@ -116,7 +116,7 @@ drought_exp_clean <- drought_exp |>
 mutate(water_treatment = as_factor(water_treatment),
          water_treatment = fct_relevel(water_treatment,
                                        "Drought stressed",
-                                       "Well watered")) 
+                                       "Well watered")) |> 
   # selecting certain columns to keep/ making data concise
   select(species_name, water_treatment, sla, total_g)
 ```
@@ -126,9 +126,19 @@ Insert code to double check the structure of the data frame here.
 
 
 
+
 Insert code to display 10 random rows from the data frame here.  
 
 
+```{r}
+#| label: ten rows
+
+slice_sample(
+  drought_exp_clean, # clean data fram to display
+  n = 10 # show ten rows
+)
+
+```
 
 
 
@@ -142,8 +152,23 @@ Label the axes with units where appropriate.
 
 Add a title describing the relationship (e.g. as SLA increases, total mass ______). 
 
+```{r}
+#| label: making a scatterplot
 
-
+#ggplot base layer, drought clean
+ggplot(data = drought_exp_clean,
+      # x axis = sla
+      # y axis= total mass
+        mapping = aes(x = sla,
+                     y = total_g)
+) +
+  #adding points
+  geom_point(size = 2) +
+  # labelling axes with units and adding a title
+  labs( y = "Total plant mass (g)",
+        x = "Specific Leaf Area (SLA) (cm"^2~"/g)",
+    title = "As SLA increases, total plant mass increases")
+```
 
 
 ## What are the differences in total mass between water treatments?
@@ -155,6 +180,30 @@ Label the axes with units where appropriate.
 Add a title describing the differences in (mean or median) plant mass between water treatments.
 
 
+```{r}
+#| label: making a jitter to compare water treatments
+
+ggplot(data = drought_exp_clean,
+      # x axis = water treatment
+      # y axis= total mass
+        mapping = aes(x = water_treatment,
+                     y = total_g,
+                     color = water_treatment)
+) +
+  #adding points
+  geom_jitter(height = 0, 
+              width = 0.1
+              ) +
+  scale_color_manual(values = c(
+    "Drought stressed" = ds_col,
+    "Well watered" = ww_col
+  )) +
+  # labelling axes with units and adding a title
+  labs( y = "Total plant mass (g)",
+        x = "Water Treatment",
+    title = "Well-watered individuals tend to have higher mass than drought stressed") +
+  theme(legend.position = "none")
+```
 
 
 
@@ -170,6 +219,41 @@ Add a title describing the differences in (mean or median) plant mass between sp
 
 Bonus: order the x-axis by decreasing mean plant mass.
 
+```{r}
+#| label: making a jitter to compare species
+
+ggplot(data = drought_exp_clean,
+      # x axis = species
+      # y axis= total mass
+        mapping = aes(x = species_name,
+                     y = total_g,
+                     color = species_name)
+) +
+  #adding points
+  geom_jitter(height = 0, 
+              width = 0.1
+              ) +
+  #wrapping x axis names
+  scale_x_discrete(labels = label_wrap(10)) +
+  # labelling axes with units and adding a title
+  labs( y = "Total plant mass (g)",
+        x = "Species name",
+    title = "Species differ in plant mass") +
+  #custom colors
+  scale_color_manual(
+    values = c(
+      "Lotus scoparius" = lotsco_col,
+      "Penstemon centranthifolius" = pencen_col,
+      "Salvia leucophylla" = salleu_col,
+      "Encelia californica" = enccal_col,
+      "Stipa pulchra" = stipul_col,
+      "Eschscholzia californica" = esccal_col,
+      "Grindelia camporum" = gricam_col
+    )
+  ) +
+  theme(legend.position = "none")
+```
+```
 
 
 
