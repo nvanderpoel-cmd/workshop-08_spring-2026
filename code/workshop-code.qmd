@@ -182,6 +182,8 @@ Add a title describing the differences in (mean or median) plant mass between wa
 
 ```{r}
 #| label: making a jitter to compare water treatments
+#| fig-height: 6
+#| fig-width: 9
 
 ggplot(data = drought_exp_clean,
       # x axis = water treatment
@@ -221,6 +223,8 @@ Bonus: order the x-axis by decreasing mean plant mass.
 
 ```{r}
 #| label: making a jitter to compare species
+#| fig-height: 6
+#| fig-width: 8
 
 ggplot(data = drought_exp_clean,
       # x axis = species
@@ -336,6 +340,8 @@ data = drought_exp_clean
 
 ```{r}
 #| label: checking-diagnostics
+#| fig-height: 6
+#| fig-width: 6
 
 #displaying plots
 par(mfrow = c(2,2))
@@ -427,6 +433,8 @@ Create a clean, publication ready figure depicting predictions for the best mode
 
 ```{r}
 #| label: final figures
+#| fig-height: 6
+#| fig-width: 10
 
 
 ggplot(data = drought_exp_clean,
